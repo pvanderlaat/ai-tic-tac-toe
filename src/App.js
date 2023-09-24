@@ -39,14 +39,17 @@ function App() {
   const handleClick = (i) => {
     if (!gameOver) {
       const newSquares = [...squares];
-      if (calculateWinner(newSquares) || newSquares[i]) {
-        setGameOver(true);
+      if (newSquares[i]) {
         return;
       }
       newSquares[i] = xIsNext ? 'X' : 'O';
       setSquares(newSquares);
       setXIsNext(!xIsNext);
       setNumClicks(numClicks + 1)
+      if (calculateWinner(newSquares)) {
+        setGameOver(true);
+        return;
+      }
       if (numClicks === 8) {
         setGameOver(true);
       }
@@ -65,6 +68,8 @@ function App() {
   let status;
   if (winner) {
     status = 'Winner: ' + winner;
+  } else if (numClicks === 9) {
+    status = "Tie Game"
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
