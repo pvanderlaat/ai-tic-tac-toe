@@ -8,6 +8,8 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [numClicks, setNumClicks] = useState(0);
   const [currModel, setCurrModel] = useState("Multilayer Perceptron")
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const resetGame = () => {
     setGameOver(false);
@@ -40,6 +42,7 @@ function App() {
   };
 
   const aiMakesMove = async () => {
+    setIsLoading(true);    
     let numpyArr = []
     for (let key in squares) {
       const el = squares[key]
@@ -62,7 +65,8 @@ function App() {
     else if (currModel === 'Multilayer Perceptron') {
       model = "MP.pkl"
     }
-    handleClick(res_[model])
+    await handleClick(res_[model])
+    setIsLoading(false);
   }
 
   const firstUpdate = useRef(true);
@@ -84,6 +88,9 @@ function App() {
     if (!gameOver) {
       const newSquares = [...squares];
       if (newSquares[i]) {
+        if (!aiTurn.current) {
+          alert("The ML model has made an error. It is trying to selected an occupied square. Please reset the game.")
+        }
         return;
       }
       newSquares[i] = xIsNext ? 'X' : 'O';
@@ -120,6 +127,11 @@ function App() {
 
   return (
     <div className="game">
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner"></div>
+        </div>
+      )}
       <div className="game-title">
         <div><h1>Choose an ML model to play against</h1></div>
         <div>Current model = {currModel}</div>
@@ -146,9 +158,7 @@ function App() {
       </div>
       <div className="game-info">
         <div className="status">{status}</div>
-        {gameOver && (
-          <button onClick={resetGame}>Reset Game</button>
-        )}
+        <button onClick={resetGame}>Reset Game</button>
       </div>
     </div>
   );
