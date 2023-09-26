@@ -8,6 +8,42 @@
   font-family: Arial, sans-serif;
 }
 
+
+
+.game-title {
+  text-align: center;
+  padding: 20px;
+  /* background-color: #f0f0f0; */
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.game-title > div > h1 {
+  background-color:  #ffffff;
+}
+.game-title > div {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.game-title button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.game-title button:hover {
+  background-color: #0056b3;
+}
+
+
+
+
 .game-board {
   border: 2px solid #333;
   display: flex;

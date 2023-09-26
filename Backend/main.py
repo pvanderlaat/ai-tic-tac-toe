@@ -8,7 +8,7 @@ def getNextMove(data):
     for i in range(len(df[0])):
         df[0][i] = data[i]
 
-    modelNames = ["mpc.pkl", "knn.pkl", "svm.pkl"]
+    modelNames = ["SVM.pkl", "KNN.pkl", "MP.pkl"]
     res = {}
     for modelName in modelNames:
         model = joblib.load(modelName)

@@ -1,0 +1,4 @@
+- docker build --tag flask_skeleton . 
+- docker run -p 3002:3002 flask_skeleton
+- /Users/phillipvanderlaat/google-cloud-sdk/bin/gcloud config set project clubfinity-vm
+- /Users/phillipvanderlaat/google-cloud-sdk/bin/gcloud run deploy flask-skeleton --region=us-east1 --source=$(pwd) --allow-unauthenticated

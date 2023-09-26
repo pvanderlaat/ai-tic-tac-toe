@@ -7,6 +7,7 @@ function App() {
   const [xIsNext, setXIsNext] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [numClicks, setNumClicks] = useState(0);
+  const [currModel, setCurrModel] = useState("Multilayer Perceptron")
 
   const resetGame = () => {
     setGameOver(false);
@@ -53,7 +54,15 @@ function App() {
       }
     }
     const res_ = await getPredictions(numpyArr)
-    handleClick(res_['mpc.pkl'])
+
+    let model = 'SVM.pkl'
+    if (currModel === 'K-Nearest Neighbors') {
+      model = "KNN.pkl"
+    }
+    else if (currModel === 'Multilayer Perceptron') {
+      model = "MP.pkl"
+    }
+    handleClick(res_[model])
   }
 
   const firstUpdate = useRef(true);
@@ -111,6 +120,13 @@ function App() {
 
   return (
     <div className="game">
+      <div className="game-title">
+        <div><h1>Choose an ML model to play against</h1></div>
+        <div>Current model = {currModel}</div>
+        <button onClick={() => {setCurrModel("Support Vector Machines")}}>Support Vector Machines</button>
+        <button onClick={() => {setCurrModel("K-Nearest Neighbors")}}>K-Nearest Neighbors</button>
+        <button onClick={() => {setCurrModel("Multilayer Perceptron")}}>Multilayer Perceptron</button>
+      </div>
       <div className="game-board">
         <div className="board-row">
           {renderSquare(0)}
