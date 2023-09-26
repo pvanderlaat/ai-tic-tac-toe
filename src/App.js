@@ -84,6 +84,12 @@ function App() {
     }
   }, [squares])
 
+  useEffect(async () => {
+    setIsLoading(true)
+    const firstLoad = await getPredictions([0,0,0,0,0,0,0,0,0])
+    setIsLoading(false)
+  }, [])
+
   const handleClick = async (i) => {
     if (!gameOver) {
       const newSquares = [...squares];
