@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import getPredictions from './api';
 import './App.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     setNumClicks(0);
     setSquares(Array(9).fill(null));
     setXIsNext(true);
+    aiTurn.current = false
   }
 
   const calculateWinner = (squares) => {
@@ -36,7 +38,40 @@ function App() {
     return null;
   };
 
-  const handleClick = (i) => {
+  const aiMakesMove = async () => {
+    let numpyArr = []
+    for (let key in squares) {
+      const el = squares[key]
+      if (el === 'X') {
+        numpyArr.push(1)
+      }
+      else if (el === 'O') {
+        numpyArr.push(-1)
+      }
+      else {
+        numpyArr.push(0)
+      }
+    }
+    const res_ = await getPredictions(numpyArr)
+    handleClick(res_['mpc.pkl'])
+  }
+
+  const firstUpdate = useRef(true);
+  const aiTurn = useRef(true);
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+    }
+    else if (aiTurn.current) {
+      aiMakesMove()
+      aiTurn.current = false
+    }
+    else {
+      aiTurn.current = true
+    }
+  }, [squares])
+
+  const handleClick = async (i) => {
     if (!gameOver) {
       const newSquares = [...squares];
       if (newSquares[i]) {
